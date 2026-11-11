@@ -59,3 +59,22 @@ class Sniper_bullet:
         end_x = self.x + (dir_x * self.length)
         end_y = self.y + (dir_y * self.length)
         pygame.draw.line(surface, self.color, (int(self.x), int(self.y)), (int(end_x), int(end_y)), self.thickness )
+
+class Sickle:
+    def __init__ (self, x, y, vx, vy, width = 30, height = 30, color = (200, 25, 227)):
+        self.x = float(x)
+        self.y = float(y)
+        self.vx = vx
+        self.vy = vy 
+        self.color = color
+        self.hitbox_rect = pygame.Rect(int(self.x), int(self.y), width, height)
+    def update(self, dt):
+        self.x += self.vx * dt
+        self.y += self.vy * dt
+        self.hitbox_rect.x = int(self.x)
+        self.hitbox_rect.y = int(self.y)
+    def is_offscreen(self, w, h):
+        return (self.x < -50 or self.x > w + 50
+                or self.y < -50 or self.y > h + 50 )
+    def draw(self, surface):
+        pygame.draw.rect(surface, self.color, self.hitbox_rect)
