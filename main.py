@@ -1,11 +1,13 @@
 # Improting libraries/classes
 import pygame
 import random
+import math
 from WaveManager import Wavemanager
 from player import Player
 from hazards import Bullet
 from hazards import Sniper_bullet
 from hazards import Sickle
+from hazards import Sine_wave
 
 # window
 pygame.init()
@@ -29,6 +31,8 @@ sniper_spawn_timer = 0.0
 SNIPER_SPAWN_INTERVAL = 2.0
 sickle_spawn_timer = 0.0
 SICKLE_SPAWN_INTERVAL = 0.30
+sinewave_spawn_timer = 0.0
+SINEWAVE_SPAWN_INTERVAL = 5.0
 font = pygame.font.Font(None, 36) 
 
 # MAIN LOOP
@@ -59,6 +63,7 @@ while running:
                 sx = random.randint(-10, WIDTH)
                 sy = random.randint(-10, HEIGHT)
             hazards.append(Sniper_bullet(sx, sy, player.x, player.y))
+
         sickle_spawn_timer += dt
         if sickle_spawn_timer >= SICKLE_SPAWN_INTERVAL:
             sickle_spawn_timer = 0.0
@@ -86,6 +91,18 @@ while running:
                 vx = 0
                 vy = speed
             hazards.append(Sickle(cx, cy, vx, vy))
+        sinewave_spawn_timer += dt
+        if sinewave_spawn_timer >= SINEWAVE_SPAWN_INTERVAL:
+                sinewave_spawn_timer = 0.0
+                speed = 300
+                sinex = random.choice([100, 200, 300, 400, 500, 600, 700])
+                spacing = 20
+                for i in range(100):
+                    siney = -10 - (i * spacing)
+                    hazards.append(Sine_wave(sinex, siney, speed = 300, amplitude = 60 , frequency = 0.015))
+                    hazards.append(Sine_wave(sinex, siney, speed = speed, amplitude = 60, frequency = 0.015, phase=math.pi))
+                    
+            
     else:
         hazards.clear()
     for hazard in hazards[:]:
@@ -93,6 +110,9 @@ while running:
             hazards.remove(hazard)
         else:
             hazard.update(dt)
+        if player.hitbox_rect.colliderect(hazard.hitbox_rect):
+            player.take_damage(hazard.damage)
+            hazards.remove(hazard)
 
     wave_mgr.update(dt)
     player.update_timer(dt)
