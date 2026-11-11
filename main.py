@@ -52,7 +52,7 @@ while running:
              sx = random.randint(-10, WIDTH)
              sy = random.randint(-10, HEIGHT)
             hazards.append(Sniper_bullet(sx, sy, player.x, player.y))
-    else :
+    else :klmpm;klm;lm;lm
           hazards.clear()
     for bullet in hazards[:]:
         if bullet.is_offscreen(WIDTH, HEIGHT):
