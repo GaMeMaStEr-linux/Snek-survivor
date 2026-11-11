@@ -22,5 +22,7 @@ class Wavemanager :
     def complete_rest(self):
         if self.state == "REST":
             self.current_wave += 1
+            self.dodge_duration += 1.0
+            self.rest_duration -= 0.5
             self.state = "DODGE"
             self.time_remaining = self.dodge_duration
