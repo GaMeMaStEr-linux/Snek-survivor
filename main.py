@@ -2,6 +2,7 @@
 import pygame
 import random
 import math
+import sys
 from pathlib import Path
 from WaveManager import Wavemanager
 from player import Player
@@ -19,7 +20,12 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Snek Survivor")
 clock = pygame.time.Clock()
 
-ASSETS_DIR = Path(__file__).parent / "assets"
+if getattr(sys, 'frozen', False):
+    ASSETS_DIR = Path(sys._MEIPASS) / "assets"
+    SAVE_DIR = Path(sys.executable).parent
+else:
+    ASSETS_DIR = Path(__file__).parent / "assets"
+    SAVE_DIR = Path(__file__).parent
 
 def load_sprite(filename, scale=1):
     img = pygame.image.load(ASSETS_DIR / filename).convert_alpha()
@@ -28,7 +34,7 @@ def load_sprite(filename, scale=1):
         img = pygame.transform.scale(img, (int(w * scale), int(h * scale)))
     return img
 
-Snek_img = load_sprite("Snek.png", scale = 4)
+Snek_img = load_sprite("Snek.png", scale = 3.2)
 rain_img = load_sprite("rain.png", scale = 3)
 Sickle_img = load_sprite("Sickle.png", scale = 2)
 Gameover_img = load_sprite("Gameover.png", scale = 2)
@@ -62,7 +68,7 @@ prompt_surf = font.render("PRESS SPACE TO START", True, (255, 255, 255))
 prompt_rect = prompt_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 over_surf = font.render("PRESS SPACE TO RESTART", True, (255, 60, 60))
 over_rect = over_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2))
-hs_file = Path(__file__).parent / "highscore.txt"
+hs_file = SAVE_DIR / "highscore.txt"
 high_score = int(hs_file.read_text().strip()) if hs_file.exists() and hs_file.read_text().strip() else 1
 high_score_surf = font.render(f"HIGHEST WAVE IS {high_score}", True, (255, 255, 255))
 high_score_rect = high_score_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 50))
