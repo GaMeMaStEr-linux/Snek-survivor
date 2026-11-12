@@ -2,7 +2,7 @@ import pygame
 import math
 
 class Bullet:
-    def __init__(self, x, y, vx, vy, radius=8, damage = 1, color=(255, 255, 255)):
+    def __init__(self, x, y, vx, vy, image, radius=8, damage = 1, color=(255, 255, 255)):
         self.x = float(x)
         self.y = float(y)
         self.vx = vx
@@ -10,6 +10,7 @@ class Bullet:
         self.radius = radius 
         self.color = color
         self.damage = damage
+        self.image = image
         self.hitbox_rect = pygame.Rect(x - radius, y - radius, radius*2, radius*2)
 
     def update(self, dt):
@@ -24,16 +25,17 @@ class Bullet:
                 self.y < -50 or self.y > height + 50)
     
     def draw(self, surface):
-        pygame.draw.circle(surface, self.color, (int(self.x), int(self.y)), self.radius)
-
+        img_rect = self.image.get_rect(center = self.hitbox_rect.center)
+        surface.blit(self.image, img_rect)
 class Sniper_bullet:
-    def __init__(self, x, y, px, py, lenght = 30, thickness = 7, damage = 3, speed = 350, color = (230, 222, 9)):
+    def __init__(self, x, y, px, py, image, lenght = 30, thickness = 7, damage = 2, speed = 350, color = (230, 222, 9)):
         self.x = float(x)
         self.y = float(y)
         self.color = color
         self.length = lenght
         self.thickness = thickness
         self.damage = damage
+        self.image = image
         self.hitbox_rect = pygame.Rect(int(self.x), int(self.y), self.length, self.thickness)
         dx = px - self.x 
         dy = py - self.y
@@ -55,15 +57,13 @@ class Sniper_bullet:
         return (self.x < -50 or self.x > w + 50
                 or self.y < -50 or self.y > h + 50 )
     def draw(self, surface):
-        dir_x = self.vx / self.speed 
-        dir_y = self.vy / self.speed
-
-        end_x = self.x + (dir_x * self.length)
-        end_y = self.y + (dir_y * self.length)
-        pygame.draw.line(surface, self.color, (int(self.x), int(self.y)), (int(end_x), int(end_y)), self.thickness )
+        angle = -math.degrees(math.atan2(self.vy, self.vx))
+        rotated_img = pygame.transform.rotate(self.image, angle)
+        img_rect = rotated_img.get_rect(center=self.hitbox_rect.center)
+        surface.blit(rotated_img, img_rect)
 
 class Sickle:
-    def __init__ (self, x, y, vx, vy, damage = 5, angle = 0.0 , width = 30, height = 30, color = (200, 25, 227)):
+    def __init__ (self, x, y, vx, vy, image, damage = 3, angle = 0.0 , width = 30, height = 30, color = (200, 25, 227)):
         self.x = float(x)
         self.y = float(y)
         self.vx = vx
@@ -73,8 +73,7 @@ class Sickle:
         self.damage = damage
         self.rot_speed = 200.0
         self.hitbox_rect = pygame.Rect(int(self.x), int(self.y), width, height)
-        self.original_image = pygame.Surface((width, height), pygame.SRCALPHA)
-        self.original_image.fill(self.color)
+        self.original_image = image
     def update(self, dt):
         self.x += self.vx * dt
         self.y += self.vy * dt
@@ -85,12 +84,12 @@ class Sickle:
         return (self.x < -50 or self.x > w + 50
                 or self.y < -50 or self.y > h + 50 )
     def draw(self, surface):
-        rotated_image = pygame.transform.rotate(self.original_image, self.angle)
-        rotated_rect = rotated_image.get_rect(center=self.hitbox_rect.center)
-        surface.blit(rotated_image, rotated_rect)
+        self.image = pygame.transform.rotate(self.original_image, self.angle)
+        img_rect = self.image.get_rect(center=self.hitbox_rect.center)
+        surface.blit(self.image, img_rect)
 
 class Sine_wave:
-    def __init__(self, x, y, speed, damage = 1, amplitude = 60, frequency = 0.015, phase = 0.0):
+    def __init__(self, x, y, speed, image, damage = 1, amplitude = 60, frequency = 0.015, phase = 0.0):
         self.x = float(x)
         self.y = float(y)
         self.speed = speed
@@ -98,6 +97,7 @@ class Sine_wave:
         self.frequency = frequency
         self.phase = phase
         self.damage = damage
+        self.image = image
         self.time_active = 0.0
         self.color = (252, 111, 3)
         self.hitbox_rect = pygame.Rect(int(self.x), int(self.y), 12, 12)
@@ -111,4 +111,5 @@ class Sine_wave:
     def is_offscreen(self, w, h):
         return self.y > h + 50
     def draw(self, surface):
-        pygame.draw.circle(surface, self.color, self.hitbox_rect.center, 6)
+        img_rect = self.image.get_rect(center=self.hitbox_rect.center)
+        surface.blit(self.image, img_rect)

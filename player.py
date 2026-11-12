@@ -1,7 +1,7 @@
 import pygame
 
 class Player:
-    def __init__(self, x, y):
+    def __init__(self, x, y, image):
         self.x = x
         self.y = y
         self.hitbox_width = 28
@@ -10,6 +10,7 @@ class Player:
         self.max_hp = 20
         self.hp = 20
         self.i_timer = 0.0
+        self.image = image
         self.hitbox_rect = pygame.Rect(x, y, self.hitbox_width, self.hitbox_height)
 
     def take_damage(self, amount):
@@ -27,11 +28,13 @@ class Player:
 
     def draw(self, surface):
         if self.i_timer > 0 and int(self.i_timer * 6) % 2 == 0:
-            alpha_surf = pygame.Surface((self.hitbox_width, self.hitbox_height), pygame.SRCALPHA)
-            alpha_surf.fill((250, 0, 0, 100))
-            surface.blit(alpha_surf, self.hitbox_rect)
+            return  # Skips drawing every other frame for a clean retro blink!
+            img_rect = self.image.get_rect(center=self.hitbox_rect.center)
+            surface.blit(self.image, img_rect)
         else:
-            pygame.draw.rect(surface, (250, 0, 0), self.hitbox_rect)
+            img_rect = self.image.get_rect(center = self.hitbox_rect.center)
+            surface.blit(self.image, img_rect)
+
 
     
     def move(self):
