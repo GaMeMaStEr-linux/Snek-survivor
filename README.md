@@ -14,6 +14,7 @@ there are 4 types of hazards in this game
 - **SineWave:-** a lot of small circular bullets shaping a DNA like wall (Does 1 damage for each bullet)
 ## CONTROLS 
 **Arrow Keys / WASD:-** Move
+
 **Space Bar:-** start / restart the game
 ## INSTALL DEPENDENCIES 
 ```bash
