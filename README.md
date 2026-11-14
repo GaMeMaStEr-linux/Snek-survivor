@@ -16,6 +16,39 @@ there are 4 types of hazards in this game
 **Arrow Keys / WASD:-** Move
 
 **Space Bar:-** start / restart the game
-## INSTALL DEPENDENCIES 
-```bash
+## INSTALL INSTRUCTIONS
+### Option 1: Download the Executable (Recommended — No Python Required)
+Grab the latest release from the [**Releases**](https://github.com/GaMeMaStEr-linux/Snek-survivor/releases) page:
+
+#### Windows
+1. Download **`SnekSurvivor.exe`**.
+2. Double-click **`SnekSurvivor.exe`** to launch the game.
+   > *Note: Because the executable is not code-signed, Windows SmartScreen may show a "Windows protected your PC" pop-up on the first launch. Click **More info** → **Run anyway** to start.*
+
+#### Linux
+1. Download **`SnekSurvivors_linux`**.
+2. Open a terminal in your Downloads folder, make the file executable, and run it:
+   ```bash
+   chmod +x SnekSurvivors_linux
+   ./SnekSurvivors_linux
+   ```
+
+
+### Option 2: Run or Build from Source
+If you want to modify the code or run it directly with Python, you will need **Python 3.10+** and **`pygame-ce`** installed.
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/GaMeMaStEr-linux/Snek-survivor.git
+   cd Snek-survivor
+   ```
+
+2. **Install dependencies:**
+   ```bash
    pip install pygame-ce
+   ```
+
+3. **Run the game:**
+   ```bash
+   python main.py
+   ```
