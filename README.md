@@ -23,7 +23,6 @@ Grab the latest release from the [**Releases**](https://github.com/GaMeMaStEr-li
 #### Windows
 1. Download **`SnekSurvivor.exe`**.
 2. Double-click **`SnekSurvivor.exe`** to launch the game.
-   > *Note: Because the executable is not code-signed, Windows SmartScreen may show a "Windows protected your PC" pop-up on the first launch. Click **More info** → **Run anyway** to start.*
 
 #### Linux
 1. Download **`SnekSurvivors_linux`**.
